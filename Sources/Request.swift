@@ -6,12 +6,24 @@ public struct Request : RequestType, CustomStringConvertible, CustomDebugStringC
   public var path:String
   public var headers:[Header]
   public var body:String?
+  public var params:[String:String]
+  public var cookies:[String:String]
 
   public init(method:String, path:String, headers:[Header]? = nil, body:String? = nil) {
     self.method = method
     self.path = path
     self.headers = headers ?? []
     self.body = body
+    self.params = [:]
+    self.cookies = [:]
+
+    if let rawCookie = (self.headers.filter { $0.0.lowercaseString == "Cookies".lowercaseString }.first?.1) {
+      let cookiePairs = rawCookie.characters.split(";").flatMap(String.init)
+      for cookie in cookiePairs {
+        let keyValue = cookie.characters.split("=").flatMap(String.init)
+        self.cookies[keyValue[0]] = keyValue[1]
+      }
+    }
   }
 
   public var description:String {
@@ -60,4 +72,5 @@ extension RequestType {
   public var authorization:String? {
     return self["Authorization"]
   }
+
 }
