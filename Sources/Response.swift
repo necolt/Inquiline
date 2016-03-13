@@ -5,11 +5,13 @@ public struct Response : ResponseType {
   public var status:Status
   public var headers:[Header]
   public var body:String?
+  public var cookies:[String:String]
 
   public init(_ status:Status, headers:[Header]? = nil, contentType:String? = nil, body:String? = nil) {
     self.status = status
     self.headers = headers ?? []
     self.body = body
+    self.cookies = [:]
 
     if let contentType = contentType {
       self.headers.append(("Content-Type", contentType))

@@ -16,14 +16,6 @@ public struct Request : RequestType, CustomStringConvertible, CustomDebugStringC
     self.body = body
     self.params = [:]
     self.cookies = [:]
-
-    if let rawCookie = (self.headers.filter { $0.0.lowercaseString == "Cookies".lowercaseString }.first?.1) {
-      let cookiePairs = rawCookie.characters.split(";").flatMap(String.init)
-      for cookie in cookiePairs {
-        let keyValue = cookie.characters.split("=").flatMap(String.init)
-        self.cookies[keyValue[0]] = keyValue[1]
-      }
-    }
   }
 
   public var description:String {
