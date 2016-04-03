@@ -24,7 +24,7 @@ public struct Request : RequestType, CustomStringConvertible, CustomDebugStringC
 
   public var debugDescription:String {
     let request = ["\(method) \(path)"] + headers.map { "\($0) \($1)" }
-    return request.joinWithSeparator("\n")
+    return request.joined(separator: "\n")
   }
 }
 
@@ -32,7 +32,7 @@ public struct Request : RequestType, CustomStringConvertible, CustomDebugStringC
 extension RequestType {
   public subscript(header: String) -> String? {
     get {
-      return headers.filter { $0.0.lowercaseString == header.lowercaseString }.first?.1
+      return headers.filter { $0.0.lowercased() == header.lowercased() }.first?.1
     }
   }
 
